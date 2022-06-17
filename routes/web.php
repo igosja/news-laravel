@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\LanguageController;
+use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware(['auth'])->prefix('/admin')->group(function () {
+    Route::controller(\App\Http\Controllers\Admin\SiteController::class)->group(function () {
+        Route::get('/', 'index')->name('admin_home')->middleware('auth');
+        Route::resources([
+            'language' => LanguageController::class
+        ]);
+    });
+});
+
+Route::controller(SiteController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+    Route::get('/', 'login')->name('login');
+    Route::get('/', 'logout')->name('logout');
 });
