@@ -1,0 +1,39 @@
+version: '3.2'
+
+services:
+
+  php:
+    build: .
+    ports:
+      - "15080:80"
+    container_name: laravel-php
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+    links:
+      - mysql
+      - redis
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=laravel
+      - MYSQL_USER=laravel
+      - MYSQL_PASSWORD=password
+    ports:
+      - "33015:3306"
+    container_name: laravel-mysql
+    command: mysqld --sql_mode="" --character-set-server=utf8 --collation-server=utf8_general_ci
+
+  redis:
+    image: redis:3.0
+    volumes:
+      - ./docker/redis:/data
+    ports:
+      - "63715:6379"
+    container_name: laravel-redis
