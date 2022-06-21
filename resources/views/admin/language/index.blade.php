@@ -6,26 +6,29 @@ declare(strict_types=1);
  */
 
 ?>
-<h1 class="text-center">Languages</h1>
+@extends('admin.layouts.layout')
 
-<ul class="list-inline text-center">
-    <li class="list-inline-item">
-        <a class="btn btn-default" href="{{ route('language.create') }}">Create</a>
-    </li>
-</ul>
+@section('content')
+    <h1 class="text-center">Languages</h1>
 
-<div class="row">
-    <div id="w0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive">
-        <div class="summary">
-            Показані <b>1-3</b> із <b>(( total_count ))</b> записів.
-        </div>
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th class="col-lg-1">
-                    <a
-                            (% if ('id' == app.request.get('sort')) %)class="asc"(% endif %)
-                    (% if ('-id' == app.request.get('sort')) %)class="desc"(% endif %)
+    <ul class="list-inline text-center">
+        <li class="list-inline-item">
+            <a class="btn btn-default" href="{{ route('language.create') }}">Create</a>
+        </li>
+    </ul>
+
+    <div class="row">
+        <div id="w0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive">
+            <div class="summary">
+                Показані <b>1-3</b> із <b>(( total_count ))</b> записів.
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th class="col-lg-1">
+                        <a
+                                (% if ('id' == app.request.get('sort')) %)class="asc"(% endif %)
+                        (% if ('-id' == app.request.get('sort')) %)class="desc"(% endif %)
                     href="(( path('admin_language', ('sort': 'id' == app.request.get('sort') ? '-id' : 'id')) ))"
                     >
                     ID
@@ -147,3 +150,4 @@ declare(strict_types=1);
         </nav>
     </div>
 </div>
+@endsection
