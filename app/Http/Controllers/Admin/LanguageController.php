@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\LanguageRequest;
 use App\Models\Language;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -84,17 +85,13 @@ class LanguageController extends AbstractController
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\LanguageRequest $request
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(LanguageRequest $request, int $id): RedirectResponse
     {
-        $data = $request->validate([
-            'code' => ['required'],
-            'name' => ['required'],
-            'is_active' => ['required'],
-        ]);
+        $data = $request->validated();
 
         $language = Language::find($id);
         $language->code = $data['code'];
