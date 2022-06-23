@@ -27,67 +27,78 @@ declare(strict_types=1);
                 <tr>
                     <th class="col-lg-1">
                         <a
-                                (% if ('id' == app.request.get('sort')) %)class="asc"(% endif %)
-                        (% if ('-id' == app.request.get('sort')) %)class="desc"(% endif %)
-                    href="(( path('admin_language', ('sort': 'id' == app.request.get('sort') ? '-id' : 'id')) ))"
-                    >
-                    ID
-                    </a>
-                </th>
-                <th>
-                    <a
-                            (% if ('name' == app.request.get('sort')) %)class="asc"(% endif %)
-                    (% if ('-name' == app.request.get('sort')) %)class="desc"(% endif %)
-                    href="(( path('admin_language', ('sort': 'name' == app.request.get('sort') ? '-name' : 'name')) ))"
-                    >
-                    Name
-                    </a>
-                </th>
-                <th>
-                    <a
-                            (% if ('code' == app.request.get('sort')) %)class="asc"(% endif %)
-                    (% if ('-code' == app.request.get('sort')) %)class="desc"(% endif %)
-                    href="(( path('admin_language', ('sort': 'code' == app.request.get('sort') ? '-code' : 'code')) ))"
-                    >
-                    Code
-                    </a>
-                </th>
-                <th class="col-lg-3">
-                    <a
-                            (% if ('is_active' == app.request.get('sort')) %)class="asc"(% endif %)
-                    (% if ('-is_active' == app.request.get('sort')) %)class="desc"(% endif %)
-                    href="(( path('admin_language', ('sort': 'is_active' == app.request.get('sort') ? '-is_active' :
-                    'is_active')) ))"
-                    >
-                    Is active
-                    </a>
-                </th>
-                <th class="col-lg-1">&nbsp;</th>
-            </tr>
-            <tr class="filters" data-url="(( filter_url ))">
-                <td>
-                    <input type="text" class="form-control" name="id" value="(( app.request.get('id') ))">
-                </td>
-                <td>
-                    <input type="text" class="form-control" name="name" value="(( app.request.get('name') ))">
-                </td>
-                <td>
-                    <input type="text" class="form-control" name="code" value="(( app.request.get('code') ))">
-                </td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach ($languages as $language)
-                <tr data-key="{{ $language->id }}">
-                    <td>{{ $language->id }}</td>
-                    <td>{{ $language->name }}</td>
-                    <td>{{ $language->code }}</td>
-                    <td>{{ $language->is_active ? 'Yes' : 'No' }}</td>
-                    <td class="text-center">
-                        <a href="{{ route('language.show', ['language' => $language]) }}" title="Переглянути"
-                           aria-label="Переглянути" data-pjax="0">
+                                @if ('id' === app('request')->query('sort'))
+                                    class="asc"
+                                @elseif ('-id' === app('request')->query('sort'))
+                                    class="desc"
+                                @endif
+                                href="{{ route('language.index', ['sort' => ('id' === app('request')->query('sort') ? '-id' : 'id')]) }}"
+                        >
+                            ID
+                        </a>
+                    </th>
+                    <th>
+                        <a
+                                @if ('name' === app('request')->query('sort'))
+                                    class="asc"
+                                @elseif ('-name' === app('request')->query('sort'))
+                                    class="desc"
+                                @endif
+                                href="{{ route('language.index', ['sort' => ('name' === app('request')->query('sort') ? '-name' : 'name')]) }}"
+                        >
+                            Name
+                        </a>
+                    </th>
+                    <th>
+                        <a
+                                @if ('code' === app('request')->query('sort'))
+                                    class="asc"
+                                @elseif ('-code' === app('request')->query('sort'))
+                                    class="desc"
+                                @endif
+                                href="{{ route('language.index', ['sort' => ('code' === app('request')->query('sort') ? '-code' : 'code')]) }}"
+                        >
+                            Code
+                        </a>
+                    </th>
+                    <th class="col-lg-3">
+                        <a
+                                @if ('is_active' === app('request')->query('sort'))
+                                    class="asc"
+                                @elseif ('-is_active' === app('request')->query('sort'))
+                                    class="desc"
+                                @endif
+                                href="{{ route('language.index', ['sort' => ('is_active' === app('request')->query('sort') ? '-is_active' : 'is_active')]) }}"
+                        >
+                            Is active
+                        </a>
+                    </th>
+                    <th class="col-lg-1">&nbsp;</th>
+                </tr>
+                <tr class="filters" data-url="{{ route('language.index') }}">
+                    <td>
+                        <input type="text" class="form-control" name="id" value="{{ app('request')->query('id') }}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="name" value="{{ app('request')->query('name') }}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="code" value="{{ app('request')->query('code') }}">
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach ($languages as $language)
+                    <tr data-key="{{ $language->id }}">
+                        <td>{{ $language->id }}</td>
+                        <td>{{ $language->name }}</td>
+                        <td>{{ $language->code }}</td>
+                        <td>{{ $language->is_active ? 'Yes' : 'No' }}</td>
+                        <td class="text-center">
+                            <a href="{{ route('language.show', ['language' => $language]) }}" title="Переглянути"
+                               aria-label="Переглянути" data-pjax="0">
                             <svg aria-hidden="true"
                                  style="display:inline-block;font-size:inherit;height:1em;overflow:visible;vertical-align:-.125em;width:1.125em"
                                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -118,36 +129,36 @@ declare(strict_types=1);
                     </td>
             </tr>
             @endforeach
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-            (% endfor %)
-            </tbody>
-        </table>
-        <nav>
-            <ul class="pagination">
-                <li class="page-item prev (( app.request.get('page', 1) <= pages|first ? 'disabled' : '' ))">
-                    <a class="page-link"
-                       href="(( pagination_url ))(( '?' in pagination_url ? '&' : '?' ))page=(( app.request.get('page', 1) - 1 ))">
-                        <span aria-hidden="true">«</span>
-                    </a>
-                </li>
-                (% for page in pages %)
-                <li class="page-item (( page == app.request.get('page', 1) ? 'active' : '' ))" aria-current="page">
-                    <a class="page-link"
-                       href="(( pagination_url ))(( '?' in pagination_url ? '&' : '?' ))page=(( page ))">
-                        (( page ))
-                    </a>
-                </li>
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
                 (% endfor %)
-                <li class="page-item next (( app.request.get('page', 1) >= pages|last ? 'disabled' : '' ))">
-                    <a class="page-link"
-                       href="(( pagination_url ))(( '?' in pagination_url ? '&' : '?' ))page=(( app.request.get('page', 1) + 1 ))">
-                        <span aria-hidden="true">»</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+                </tbody>
+            </table>
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item prev (( app.request.get('page', 1) <= pages|first ? 'disabled' : '' ))">
+                        <a class="page-link"
+                           href="(( pagination_url ))(( '?' in pagination_url ? '&' : '?' ))page=(( app.request.get('page', 1) - 1 ))">
+                            <span aria-hidden="true">«</span>
+                        </a>
+                    </li>
+                    (% for page in pages %)
+                    <li class="page-item (( page === app.request.get('page', 1) ? 'active' : '' ))" aria-current="page">
+                        <a class="page-link"
+                           href="(( pagination_url ))(( '?' in pagination_url ? '&' : '?' ))page=(( page ))">
+                            (( page ))
+                        </a>
+                    </li>
+                    (% endfor %)
+                    <li class="page-item next (( app.request.get('page', 1) >= pages|last ? 'disabled' : '' ))">
+                        <a class="page-link"
+                           href="(( pagination_url ))(( '?' in pagination_url ? '&' : '?' ))page=(( app.request.get('page', 1) + 1 ))">
+                            <span aria-hidden="true">»</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
-</div>
 @endsection

@@ -18,12 +18,34 @@ use Illuminate\Http\Request;
 class LanguageController extends AbstractController
 {
     /**
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request): View|Factory|Application
     {
+        $sort = $request->query('sort', 'id');
+        $order = 'ASC';
+        if ('-' === $sort[0]) {
+            $order = 'DESC';
+            $sort = substr($sort, 1);
+        }
+        $query = Language::query();
+        if ($request->query('id')) {
+            $query->where('id', $request->query('id'));
+        }
+        if ($request->query('code')) {
+            $query->where('code', 'like', '%' . $request->query('code') . '%');
+        }
+        if ($request->query('name')) {
+            $query->where('name', 'like', '%' . $request->query('name') . '%');
+        }
+
+        $languages = $query
+            ->orderBy($sort, $order)
+            ->get();
+
         return view('admin.language.index', [
-            'languages' => Language::all(),
+            'languages' => $languages,
         ]);
     }
 
