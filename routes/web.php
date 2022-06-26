@@ -20,10 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->prefix('/admin')->group(function () {
     Route::controller(\App\Http\Controllers\Admin\SiteController::class)->group(function () {
         Route::get('/', 'index')->name('admin_home')->middleware('auth');
-        Route::resources([
-            'language' => LanguageController::class
-        ]);
+        Route::post('/change-language', 'changeLanguage')->name('admin_change_language');
     });
+    Route::resources([
+        'language' => LanguageController::class
+    ]);
 });
 
 Route::controller(SiteController::class)->group(function () {

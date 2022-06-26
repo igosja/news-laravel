@@ -9,7 +9,7 @@ declare(strict_types=1);
 @extends('admin.layouts.layout')
 
 @section('content')
-    <h1 class="text-center">Languages</h1>
+    <h1 class="text-center">{{ __('messages.Languages') }}</h1>
 
     <ul class="list-inline text-center">
         <li class="list-inline-item">

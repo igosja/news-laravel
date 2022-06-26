@@ -34,6 +34,14 @@
                            href="{{ route('language.index') }}">Languages</a>
                     </li>
                 </ul>
+                <form class="d-flex" method="post" action="{{ route('admin_change_language') }}">
+                    @csrf
+                    <select class="form-control" name="language" onchange="submit()">
+                        @foreach ($availableLanguages as $availableLanguage)
+                            <option value="{{ $availableLanguage }}" @selected(app()->getLocale() === $availableLanguage)>{{ $availableLanguage }}</option>
+                        @endforeach
+                    </select>
+                </form>
                 <a class="btn btn-link logout text-decoration-none" href="{{ route('logout') }}">Logout</a>
             </div>
         </div>
