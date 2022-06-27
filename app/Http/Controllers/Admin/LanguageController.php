@@ -42,7 +42,7 @@ class LanguageController extends AbstractController
 
         $languages = $query
             ->orderBy($sort, $order)
-            ->get();
+            ->paginate(10);
 
         return view('admin.language.index', [
             'languages' => $languages,
