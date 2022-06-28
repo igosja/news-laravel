@@ -26,7 +26,7 @@ declare(strict_types=1);
                 <div class="mb-3 required">
                     <label class="form-label" for="name">Name</label>
                     <input id="name" class="form-control @error('name') is-invalid @enderror" name="name"
-                           value="{{ $language->name }}"/>
+                           value="{{ old('name', $language->name) }}"/>
                     @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -34,7 +34,7 @@ declare(strict_types=1);
                 <div class="mb-3 required">
                     <label class="form-label" for="code">Code</label>
                     <input id="code" class="form-control @error('code') is-invalid @enderror" name="code"
-                           value="{{ $language->code }}"/>
+                           value="{{ old('code', $language->code) }}"/>
                     @error('code')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -44,7 +44,7 @@ declare(strict_types=1);
                         <input type="hidden" name="is_active" value="0">
                         <input type="checkbox" id="is_active"
                                class="form-check-input @error('is_active') is-invalid @enderror" name="is_active"
-                               value="1" @checked($language->is_active)>
+                               value="1" @checked(old('is_active', $language->is_active))>
                         <label class="form-check-label" for="is_active">Is active</label>
                         @error('is_active')
                         <div class="invalid-feedback">{{ $message }}</div>
