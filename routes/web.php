@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SignupController;
@@ -23,7 +24,8 @@ Route::middleware(['auth'])->prefix('/admin')->group(function () {
         Route::post('/change-language', 'changeLanguage')->name('admin_change_language');
     });
     Route::resources([
-        'language' => LanguageController::class
+        'category' => CategoryController::class,
+        'language' => LanguageController::class,
     ]);
 });
 

@@ -31,6 +31,10 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active"
+                           href="{{ route('category.index') }}">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active"
                            href="{{ route('language.index') }}">Languages</a>
                     </li>
                 </ul>

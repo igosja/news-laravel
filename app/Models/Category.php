@@ -7,23 +7,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Language
+ * Class Category
  * @package App\Models
  *
  * @property int $id
- * @property string $code
  * @property bool $is_active
  * @property string $name
+ * @property array $translation
  * @property string $created_at
  * @property string $updated_at
  */
-class Language extends Model
+class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'code',
-        'name',
-        'is_active',
+    protected $casts = [
+        'translation' => 'array'
     ];
+
+    protected $fillable = ['name', 'translation', 'is_active'];
 }

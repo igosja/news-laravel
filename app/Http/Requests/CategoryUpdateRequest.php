@@ -6,10 +6,10 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class LanguageUpdateRequest
+ * Class CategoryUpdateRequest
  * @package App\Http\Requests
  */
-class LanguageUpdateRequest extends FormRequest
+class CategoryUpdateRequest extends FormRequest
 {
     /**
      * @return bool
@@ -24,13 +24,9 @@ class LanguageUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        /**
-         * @var \Illuminate\Routing\Route $route
-         */
-        $route = $this->route();
         return [
-            'code' => ['required', 'unique:languages,code,' . $route->parameter('language')->id, 'max:255'],
-            'name' => ['required', 'unique:languages,name,' . $route->parameter('language')->id, 'max:255'],
+            'name' => ['required', 'max:255'],
+            'translation' => ['required'],
             'is_active' => ['required', 'boolean'],
         ];
     }

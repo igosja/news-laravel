@@ -65,12 +65,7 @@ class LanguageController extends AbstractController
     public function store(LanguageStoreRequest $request): RedirectResponse
     {
         $data = $request->validated();
-
-        $language = new Language();
-        $language->code = $data['code'];
-        $language->name = $data['name'];
-        $language->is_active = $data['is_active'];
-        if (!$language->save()) {
+        if (!Language::create($data)) {
             return back();
         }
 
@@ -78,26 +73,22 @@ class LanguageController extends AbstractController
     }
 
     /**
-     * @param int $id
+     * @param Language $language
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show(int $id): View|Factory|Application
+    public function show(Language $language): View|Factory|Application
     {
-        $language = Language::find($id);
-
         return view('admin.language.show', [
             'language' => $language,
         ]);
     }
 
     /**
-     * @param int $id
+     * @param Language $language
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(int $id): View|Factory|Application
+    public function edit(Language $language): View|Factory|Application
     {
-        $language = Language::find($id);
-
         return view('admin.language.edit', [
             'language' => $language,
         ]);
@@ -105,18 +96,13 @@ class LanguageController extends AbstractController
 
     /**
      * @param \App\Http\Requests\LanguageUpdateRequest $request
-     * @param int $id
+     * @param Language $language
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(LanguageUpdateRequest $request, int $id): RedirectResponse
+    public function update(LanguageUpdateRequest $request, Language $language): RedirectResponse
     {
         $data = $request->validated();
-
-        $language = Language::find($id);
-        $language->code = $data['code'];
-        $language->name = $data['name'];
-        $language->is_active = $data['is_active'];
-        if (!$language->save()) {
+        if (!$language->update($data)) {
             return back();
         }
 
@@ -124,15 +110,11 @@ class LanguageController extends AbstractController
     }
 
     /**
-     * @param int $id
+     * @param Language $language
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy(Language $language): RedirectResponse
     {
-        /**
-         * @var Language $language
-         */
-        $language = Language::find($id);
         $language->delete();
 
         return redirect()->route('language.index');
