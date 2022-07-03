@@ -30,8 +30,9 @@ declare(strict_types=1);
                 </div>
                 @foreach ($languages as $language)
                     <div class="mb-3 required">
-                        <label class="form-label" for="name">Translation ({{ $language->code }})</label>
-                        <input id="name"
+                        <label class="form-label" for="translation_{{ $language->code }}">Translation
+                            ({{ $language->code }})</label>
+                        <input id="translation_{{ $language->code }}"
                                class="form-control @error('translation.' . $language->code) is-invalid @enderror"
                                name="translation[{{ $language->code }}]"
                                value="{{ old('translation.' . $language->code) }}"/>

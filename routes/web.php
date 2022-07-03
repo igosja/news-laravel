@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LanguageController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\SiteController;
@@ -26,6 +27,7 @@ Route::middleware(['auth'])->prefix('/admin')->group(function () {
     Route::resources([
         'category' => CategoryController::class,
         'language' => LanguageController::class,
+        'post' => PostController::class,
     ]);
 });
 
