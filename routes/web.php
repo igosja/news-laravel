@@ -22,7 +22,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->prefix('/admin')->group(function () {
     Route::controller(\App\Http\Controllers\Admin\SiteController::class)->group(function () {
         Route::get('/', 'index')->name('admin_home')->middleware('auth');
-        Route::post('/change-language', 'changeLanguage')->name('admin_change_language');
+    });
+    Route::controller(PostController::class)->group(function () {
+        Route::get('/post/delete-image/{post}', 'deleteImage')->name('admin_post_delete_image');
     });
     Route::resources([
         'category' => CategoryController::class,
@@ -33,7 +35,15 @@ Route::middleware(['auth'])->prefix('/admin')->group(function () {
 
 Route::controller(SiteController::class)->group(function () {
     Route::get('/', 'index')->name('home');
+    Route::post('/change-language', 'changeLanguage')->name('change_language');
     Route::get('/logout', 'logout')->name('logout');
+});
+
+Route::controller(\App\Http\Controllers\PostController::class)->group(function () {
+    Route::get('/post', 'index')->name('post');
+    Route::get('/view/{url}', 'show')->name('post_view');
+    Route::get('/rating/{post}', 'rating')->name('post_rating');
+    Route::post('/comment/{post}', 'storeComment')->name('post_save_comment');
 });
 
 Route::controller(LoginController::class)->group(function () {

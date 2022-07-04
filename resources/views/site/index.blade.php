@@ -2,4 +2,10 @@
 declare(strict_types=1);
 
 ?>
-123
+@extends('layouts.layout')
+
+@section('content')
+
+    Home page
+
+@endsection

@@ -49,6 +49,14 @@ declare(strict_types=1);
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="mb-3 required">
+                    <label class="form-label" for="image">Image</label>
+                    <input type="file" id="image" class="form-control @error('image') is-invalid @enderror"
+                           name="image"/>
+                    @error('image')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
                 @foreach ($languages as $language)
                     <div class="mb-3 required">
                         <label class="form-label" for="translation_title_{{ $language->code }}">Translation title

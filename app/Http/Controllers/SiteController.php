@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Language;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class SiteController
@@ -18,11 +19,11 @@ use Illuminate\Support\Facades\Auth;
 class SiteController extends AbstractController
 {
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
      */
-    public function index(): View|Factory|Application
+    public function index(): Redirector|Application|RedirectResponse
     {
-        return view('site.index');
+        return redirect('post');
     }
 
     /**
@@ -40,5 +41,26 @@ class SiteController extends AbstractController
         $request->session()->regenerateToken();
 
         return redirect('home');
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function changeLanguage(Request $request): RedirectResponse
+    {
+        if ($request->get('language')) {
+            $requestLanguage = $request->get('language');
+
+            $language = Language::query()
+                ->where('is_active', true)
+                ->where('code', $requestLanguage)
+                ->first();
+            if ($language) {
+                App::setLocale($language->code);
+                Session::put('locale', $language->code);
+            }
+        }
+        return redirect()->back();
     }
 }

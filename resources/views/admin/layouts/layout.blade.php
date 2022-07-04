@@ -39,10 +39,10 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active"
-                           href="{{ route('language.index') }}">Languages</a>
+                           href="{{ route('language.index') }}">{{ __('messages.Languages') }}</a>
                     </li>
                 </ul>
-                <form class="d-flex" method="post" action="{{ route('admin_change_language') }}">
+                <form class="d-flex" method="post" action="{{ route('change_language') }}">
                     @csrf
                     <select class="form-control" name="language" onchange="submit()">
                         @foreach ($availableLanguages as $availableLanguage)

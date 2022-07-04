@@ -8,6 +8,7 @@ use App\Http\Requests\PostUpdateRequest;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\Post;
+use App\Services\UploadImageService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -77,6 +78,13 @@ class PostController extends AbstractController
             $post->save();
         }
 
+        $file = $request->file('image');
+        if ($file) {
+            $image = UploadImageService::upload($file, public_path('uploads'));
+            $post->image_id = $image->id;
+            $post->save();
+        }
+
         return redirect()->route('post.index');
     }
 
@@ -133,12 +141,6 @@ class PostController extends AbstractController
     {
         $data = $request->validated();
 
-        if ($request->file('image')) {
-            print '<pre>';
-            print_r($request->file('image'));
-            exit;
-        }
-
         $post->category_id = $data['category_id'];
         $post->created_by = Auth::id();
         $post->name = $data['name'];
@@ -156,6 +158,13 @@ class PostController extends AbstractController
             $post->save();
         }
 
+        $file = $request->file('image');
+        if ($file) {
+            $image = UploadImageService::upload($file, public_path('uploads'));
+            $post->image_id = $image->id;
+            $post->save();
+        }
+
         return redirect()->route('post.index');
     }
 
@@ -168,5 +177,22 @@ class PostController extends AbstractController
         $post->delete();
 
         return redirect()->route('post.index');
+    }
+
+    /**
+     * @param Post $post
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteImage(Post $post): RedirectResponse
+    {
+        $image = $post->image()->first();
+        if ($image) {
+            $post->image_id = null;
+            $post->save();
+
+            $image->delete();
+        }
+
+        return redirect()->route('post.update', ['post' => $post]);
     }
 }

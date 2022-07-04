@@ -18,4 +18,16 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
+
+    /**
+     * @return bool|null
+     */
+    public function delete(): ?bool
+    {
+        if ($this->path) {
+            unlink(public_path('uploads') . '/' . $this->path);
+        }
+
+        return parent::delete();
+    }
 }

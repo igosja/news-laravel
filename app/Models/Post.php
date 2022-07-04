@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Post
@@ -36,6 +36,29 @@ class Post extends Model
     ];
 
     /**
+     * @return int
+     */
+    public function totalRating(): int
+    {
+        $result = 0;
+        foreach ($this->rating()->get() as $rating) {
+            $result += $rating->value;
+        }
+        return $result;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function delete(): ?bool
+    {
+        if ($this->image_id) {
+            $this->image()->first()?->delete();
+        }
+        return parent::delete();
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category(): BelongsTo
@@ -44,11 +67,11 @@ class Post extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function image(): HasOne
+    public function image(): BelongsTo
     {
-        return $this->hasOne(Image::class);
+        return $this->belongsTo(Image::class);
     }
 
     /**
@@ -65,5 +88,21 @@ class Post extends Model
     public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rating(): HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comment(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 }

@@ -45,6 +45,14 @@ declare(strict_types=1);
                 <td>Category</td>
                 <td>{{ $post->category()->first()->name }}</td>
             </tr>
+            <tr>
+                <td>Image</td>
+                <td>
+                    @if ($post->image_id)
+                        <img alt="img" src="/uploads/{{ $post->image()->first()->path }}" class="img-fluid">
+                    @endif
+                </td>
+            </tr>
             @foreach ($languages as $language)
                 <tr>
                     <td>Translation title ({{ $language->code }})</td>
