@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Models\Post;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * Class PostsController
@@ -14,7 +15,7 @@ class PostController extends AbstractController
     /**
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function index()
+    public function index(): LengthAwarePaginator
     {
         return Post::query()
             ->with(['image'])
